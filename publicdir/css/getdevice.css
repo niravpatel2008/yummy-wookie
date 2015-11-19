@@ -1,0 +1,65 @@
+@media only screen and (min-width : 768px)
+{
+	.searchOption {position: fixed ;z-index: 2 ;}
+	#modal{width:730px ;}
+	#content{width:600px ;}
+	#galleryContent{width:254px;}
+	.ad-image{left:0 ;top:0 ;width:360px ;}
+	.ad-gallery .ad-image-wrapper .ad-next{right:-4px ;}
+	.ad-image > img{width:254px ;}
+	.ad-gallery{height:300px ;}
+	.ad-gallery .ad-image-wrapper .ad-prev .ad-prev-image, .ad-gallery .ad-image-wrapper .ad-next .ad-next-image{top:30% ;}
+	.ad-gallery .ad-image-wrapper{margin-bottom:-65px ;}
+	.ad-gallery .ad-nav .ad-thumbs{width:88% ;}
+	.ad-gallery .ad-forward{right:21px ;}
+	.home_gallery{width:255px ;}
+	.sectionbox{text-align:justify;}
+	.home_gallery_content{width:400px ;}
+	.searchOptionTxbx{width:auto;margin-left:5px;}
+	.textboxlist-autocomplete{width:250px ;}
+	.carousel-continuous{width:455px ;}
+	.radiolocation{margin:0 0 0 5px;}
+	.locationTxbx{margin:0 0 0 5px;}
+	.locationicon{margin-left:5px;}
+}
+@media only screen and (min-width : 1024px)
+{
+	.searchOption {position: fixed ;z-index: 2 ;}
+	#modal{width:750px ;}
+	#galleryContent{width:254px;}
+	.ad-image{left:0 ;top:0 ;width:360px ;}
+	.ad-gallery .ad-image-wrapper .ad-next{right:-4px ;}
+	.ad-image > img{width:254px ;}
+	.ad-gallery{height:300px ;}
+	.ad-gallery .ad-image-wrapper .ad-prev .ad-prev-image, .ad-gallery .ad-image-wrapper .ad-next .ad-next-image{top:30% ;}
+	.ad-gallery .ad-image-wrapper{margin-bottom:-65px ;}
+	.ad-gallery .ad-nav .ad-thumbs{width:88% ;}
+	.ad-gallery .ad-forward{right:21px ;}
+	.home_gallery{width:255px ;}
+	.sectionbox{text-align:justify;}
+	.home_gallery_content{width:450px ;}
+	.searchOptionTxbx{width:auto;}
+	.textboxlist-autocomplete{width:250px ;}
+}
+@media screen and (min-width: 1100px) 
+{
+	.btnlisting{margin-top:220px ;}
+	.recommended{margin-top:334px ;}
+	.btnthumsup{margin-top:476px ;}
+}
+@media screen and (min-width: 1280px) 
+{
+	.searchOption{position:fixed ;z-index:2 ;}
+	.btnlisting{margin-top:220px ;}
+	.recommended{margin-top:335px ;}
+	.btnthumsup{margin-top:476px ;}
+}
+@media all and (min-width:1366px)
+{
+	.searchOption{position:fixed ;z-index:2 ;}
+	.divAllPhotoDlg{height:500px ;}
+}
+@media screen and (min-width : 1400px) 
+{
+	.searchOption{position:fixed ;z-index:2 ;}
+}

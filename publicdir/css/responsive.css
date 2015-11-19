@@ -1,0 +1,132 @@
+*{padding:0;margin:0;}
+.clearfix {*zoom:1;}
+.clearfix:before, .clearfix:after {display: table;line-height: 0;content: ""}
+.clearfix:after {clear: both}
+.l{float:left;}
+.r{float:right;}
+.htxt{height:30px;}
+#frmSearch select option{text-indent:5px;}
+#mydiv{margin:0 auto;padding:0 2px;height:85px;}
+#mydiv select{display: inline-block;box-sizing: border-box;height:30px;padding:6px 5px 4px 7px;border:0px solid #C2C0C0;position:absolute;}
+.imgdiv{max-height:27px;margin:0 auto;display:block;}
+.imgsrch{min-height:25px;margin:0 auto;}
+.welcome{width:100%;text-align:right;height:21px;color:#fff;font-family:arial;font-size:13px;font-weight:bold;}
+
+/***************** Start Common Width for header *****************/
+
+.w2{width:84%;display: inline-block;border-right:1px solid #ccc;}
+.w6{width:15%;display: inline-block;height:30px;}
+
+/***************** End Common Width for header *****************/
+
+.loc-div{position:absolute;top:0px;right:0px;margin:2px;}
+
+#frmSearch input[type="checkbox"] {padding: 0;}
+#mydiv input[type="checkbox"] {display: none;}
+.checkbox label:before{border-radius:3px;}
+label:before{background-color: #AAAAAA;box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.3) inset, 0 1px 0 0 rgba(255, 255, 255, 0.8);
+    content: "";display: inline-block;height: 13px;left: 0;margin-right: 10px;position: absolute;width: 13px;}
+.checkbox label{margin-bottom:10px;}
+label{top:0;cursor: pointer;display: inline-block;padding-left: 16px;position: relative;font-weight:bold;}
+#mydiv input[type="checkbox"]:checked + label:before { color: #F3F3F3;content: "✓";font-size: 12px;line-height: 15px;text-align: center;text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);font-weight: bold;text-indent: 0;}
+
+/******* START Small Device *******/
+@media only screen and (min-width : 200px) and (max-width : 319px)
+{
+	
+	.fb-button-large{text-align:center;}
+	.fb-button-large .fb-button-icon,.fb-button-large .fb-button-text{border:1px solid transparent;}
+}
+@media only screen and (min-width : 320px) and (max-width : 480px)
+{
+	
+	.viewallphotos a{float:none;display:block;word-wrap:break-word;}
+	.alignleft{float:none;}
+	.alignright{text-align:center;}
+	.fb-button-large{text-align:center;}
+	.fb-button-large .fb-button-icon,.fb-button-large .fb-button-text{border:1px solid transparent;}
+	.carousel-container, .carousel-item, .item-background{height:auto !important;}
+	.agtfield input{width:75%;}
+	#frmSignUp input{width:75%;}
+	.fb-button-large{font-size:100%;}
+	.agtcontact{text-align:center;}
+	#schoolInfoData li{width:auto;}
+
+}
+/******* END Small Device *******/
+
+.column{float: left;}
+.size-1of5 {width: 19%;}
+.size-1of4 {width: 23.90%;}
+.mapsize-1of4{width: 19%;}
+.size-1of3 {width: 31.50%;}
+.size-1of2 {width: 47.50%;}
+
+/* Be sure to hide the element containing the configuration */
+
+[data-columns]::before {visibility: hidden;border: 0;clip: rect(0 0 0 0);height: 1px;margin: -1px;overflow: hidden;padding: 0;
+    position: absolute;width: 1px;}
+
+/* Configurate salvattore with media queries */
+
+@media screen and (max-width: 299px) {
+	#footerDiv div{float:none;text-align:center;}
+	#closephotobtn{margin-left:25px;}
+	.alignright{padding-right:40px;}
+	.wrapper_inner{padding-bottom:85px;}
+	.viewphotodiv .medium li img{width:50%;height:50%;}
+	.viewphotodiv .medium li{width:100px;}
+	.divall_photo{width:80%;}
+	.alignrightmenu{float:none;}
+	.slogantxt{width:100%}
+}
+
+@media screen and (min-width: 0px) and (max-width: 480px) {
+    #v_results[data-columns]::before {
+        content: '1 .prop_divsingel';
+    }
+}
+@media screen and (min-width: 481px) and (max-width: 767px) {
+    #v_results[data-columns]::before {
+	   content: '2 .prop_div.size-1of2';
+    }
+}
+@media screen and (min-width: 768px) and (max-width: 1024px){
+    #v_results[data-columns]::before {
+        content: '3 .prop_div.size-1of3';
+    }
+}
+@media screen and (min-width: 1025px) and (max-width: 1280px){
+    #v_results[data-columns]::before {
+		content: '4 .prop_div.size-1of4';
+    }
+	.divall_photo{width:80%;}
+}
+@media screen and (min-width: 1280px){
+    #v_results[data-columns]::before {
+	content: '5 .prop_div.size-1of5';
+    }
+}
+
+/* Header related media query */
+
+@media screen and (max-width: 767px)
+{
+	#mydiv{height:auto !important;}
+	#cszDiv,#exactLocationDiv{border-bottom:1px solid #CCCCCC;}
+	.formwrap-adjust {*zoom:1;height:auto;padding:2px 0 0 0;border-radius:3px;}
+	a.button-styleArrow{border-radius:5px !important;}
+	.formwrap-adjust:before, .formwrap-adjust:after {display: table;line-height: 0;content: ""}
+	.formwrap-adjust:after {clear: both}
+	.formwrap_cell{display: block;width:100% !important;}
+	.searchlbl{color: #333333 !important;margin-left: 5px;}
+	.w2{width:100% !important;border-right:none !important;border-bottom:1px solid #CCCCCC;}
+	.w6{width:100% !important;border-right:none;height:31px !important;}
+	.w7{margin:10px 0px !important;text-align:center !important;width:100% !important;}
+	.formwrap-adjust *{-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+	.w8mobile{width:40% !important;display: inline-block;border:none !important;border-left:1px solid #ccc !important;border-radius:0 !important ;
+		height:30px;float:right !important;}
+	.gmapw2, .gmapw4, .gmapw6{width:100%;margin-top:5px;}  
+	#divGetDirection{width:80%;}
+	#directions-panel,.directionMap,.keylisting{width:100%;}
+}

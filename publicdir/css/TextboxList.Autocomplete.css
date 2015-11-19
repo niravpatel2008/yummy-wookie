@@ -1,0 +1,30 @@
+/* 
+		This stylesheet belongs to TextboxList - Copyright Guillermo Rauch <http://devthought.com> 2009 
+		TextboxList is not priceless for commercial use. See <http://devthought.com/projects/jquery/textboxlist/> 
+		Purchase to remove copyright
+*/
+
+.textboxlist-autocomplete { position: absolute; z-index: 100;}
+.textboxlist-autocomplete-placeholder, .textboxlist-autocomplete-results { background: #eee;
+/*-webkit-box-shadow: 0 3px 3px #ccc; -moz-box-shadow: 0 3px 3px #ccc; box-shadow: 0 3px 3px #ccc; */
+border: 1px solid #999; border-top: none; display: none; max-height:243px;overflow-y:scroll;}
+.textboxlist-autocomplete-placeholder { padding: 5px 7px; }
+.textboxlist-autocomplete-results { margin: 0; padding: 0; }
+.textboxlist-autocomplete-result { margin: 0; padding: 5px; list-style-type: none; background: #eee; }
+.textboxlist-autocomplete-result-focus { background: #C6D9E4; }
+.textboxlist-autocomplete-highlight { background: #EEF0C4; font-weight: bold; }
+
+/*  TextboxList.Autocomplete Style guidelines 
+			Try to keep .textboxlist-autocomplete {} as it is now
+			If you apply custom styles to placeholder, also apply them to results, like it is now.
+			.textboxlist-autocomplete-result {} needs a background for IE.
+*/
+
+@media all and (max-width: 1024px) and (min-width: 600px) and (orientation : portrait)
+{
+	.textboxlist-autocomplete{width:600px;}
+}
+@media all and (max-width: 1024px) and (min-width: 600px) and (orientation : landscape)
+{
+	.textboxlist-autocomplete{width:400px;}
+}

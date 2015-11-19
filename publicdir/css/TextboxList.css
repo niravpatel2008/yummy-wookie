@@ -1,0 +1,49 @@
+.textboxlist {cursor: text;border-radius:3px;}
+.textboxlist-bits { height:30px; zoom: 1; overflow: hidden; margin: 0; padding: 3px 4px 0;  *padding-bottom: 3px; background:#fff;}
+.textboxlist-bits input{ border:none !important;; font-size:12px; width:80%;color:#8C7E7E;  font-weight:normal;background:none;}
+.textboxlist-bit { list-style-type: none; float: left; display: block; padding: 0; margin: 0 5px 3px 0; cursor: default; }
+.textboxlist-bit-editable-input { border: 0; padding: 2px 0; *padding-bottom: 0; height: 3.429em; font: 0.875em "Lucida Grande", Verdana; }
+.textboxlist-bit-editable-input:focus { outline: 0; }
+.textboxlist-bit-box {position: relative;line-height: 18px;padding: 7px 10px;-moz-border-radius: 8px;-webkit-border-radius: 8px;
+    border-radius: 8px;border: 1px solid rgba(233, 47, 47, 0.19);background: rgba(233, 47, 47, 0.14);cursor: default;
+    color:#8C7E7E;}
+.textboxlist-bit-box-isAction.textboxlist-bit-box-isAction {border: 1px solid rgba(19, 89, 165, 0.24);background: rgba(19, 89, 165, 0.19);}
+.textboxlist-bit-box-deletable { padding-right: 15px; }
+.textboxlist-bit-box-deletebutton { position: absolute !important; right: 4px; top: 6px; display: block; width: 7px; height: 7px !important; font-size: 1px; background: url('../images/close.gif'); }
+.textboxlist-bit-box-deletebutton:hover { border: none; background-position: 7px; text-decoration: none; }
+.textboxlist-bit-box-hover { background: rgba(233, 47, 47, 0.14);  border: 1px solid rgba(233, 47, 47, 1.0); }
+.textboxlist-bit-box-focus { border-color: rgba(255, 0, 0, 0.62); background: rgba(255, 0, 0, 0.62); color: #000000; }
+.textboxlist-bit-box-focus .textboxlist-bit-box-deletebutton { background-position: bottom; }
+.form_tags { margin-bottom: 10px; }
+.textboxlist-loading { background: url('../images/spinner.gif') no-repeat 380px center; }
+li.textboxlist-bit {margin-top: 4px;font-size: 0.875em;font-weight: 300;}
+li.textboxlist-bit-editable {margin-top: 0px;}
+ul.textboxlist-bits {padding-top:0px; padding-bottom:0px;position:relative;}
+div.textboxlist {/*float:left;*/position:relative;}
+.textboxlist-bit-editable-input {width:200px;background:none;}
+.standard_input {border:1px solid #C2C0C0;color:#8C7E7E;font-size: 12px;}
+
+/* Autocomplete results styling */
+.textboxlist-autocomplete-result { overflow: hidden; zoom: 1; }
+.textboxlist-autocomplete-result img { float: left; padding-right: 10px; }
+.textboxlist-autocomplete-result  {text-align: left;}
+
+/*********************** Start Responsive ******************************/
+/*
+@media screen and (max-width :320px)
+{
+	.textboxlist-bit-box{line-height:18px !important;}
+	.textboxlist-bit-box-deletebutton{top:7px !important;left:68px !important;}
+}
+@media screen and (max-width : 480px) and (min-width: 321px)
+{
+	.textboxlist-bit-box{line-height:18px !important;}
+	.textboxlist-bit-box-deletebutton{top:7px !important;left:68px !important;}
+}
+@media all and (max-width: 1280px) and (min-width: 769px) and (orientation : portrait) 
+{
+	.textboxlist{width:345px !important;}
+}
+*/
+
+/*********************** End Responsive ******************************/

@@ -1,0 +1,48 @@
+@media screen and (min-width: 0px) and (max-width: 480px) {
+    #search_results[data-columns]::before {
+        content: '1 .search_column';
+    }
+	#search_results{width:220px;margin:0 auto;}
+}
+@media screen and (min-width: 481px) and (max-width: 767px) {
+    #search_results[data-columns]::before {
+	   content: '2 .search_column';
+    }
+	#search_results{width:500px;margin:0 auto;}
+}
+@media screen and (min-width: 768px) and (max-width: 1024px){
+    #search_results[data-columns]::before {
+        content: '3 .search_column';
+    }
+	.search_column{padding: 1.35% !important;}
+	.account .input{font-size: 0.87em;}
+}
+@media screen and (min-width: 1025px) and (max-width: 1280px){
+    #search_results[data-columns]::before {
+		content: '4 .search_column';
+    }
+}
+@media screen and (min-width: 1280px){
+    #search_results[data-columns]::before {
+	content: '4 .search_column';
+    }
+}
+
+[data-columns]::before {visibility: hidden;border: 0;clip: rect(0 0 0 0);height: 1px;margin: -1px;overflow: hidden;padding: 0;
+position: absolute;width: 1px;}
+
+
+.clearboth{
+   clear: both;
+    margin: 0;
+    padding: 0;
+}
+
+.search_column{
+	float: left;
+    padding: 1%;
+}
+
+.item-thumb{
+	padding-bottom:10%;
+}
