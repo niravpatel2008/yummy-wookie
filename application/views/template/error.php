@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="">
 	<div id="flash_msg">
 		<?php
 			if ($this->session->flashdata('flash_type') == "success") {

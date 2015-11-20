@@ -199,6 +199,85 @@ class Cellarea extends CI_Controller {
 		$this->load->view('content', $data);
 	}
 
+	public function process_file()
+	{
+		$post = $this->input->post();
+		if ($post) {
+			$filename = $post["filename"];
+			$company_name = $post["company_name"];
+			if ($filename == "") exit;
+			if ($company_name == "") exit;
+
+			require('./application/libraries/spreadsheet-reader/php-excel-reader/excel_reader2.php');
+			require('./application/libraries/spreadsheet-reader/SpreadsheetReader.php');
+			$Reader = new SpreadsheetReader( './uploads/'.$filename);
+			$headerFlag = true;
+			foreach ($Reader as $Row)
+			{
+				if ($headerFlag) 
+				{
+					$headerFlag = false;
+					continue;
+				}
+				
+				$data = array();
+				$data["lat"] = $Row[$post["field_lat"]];
+				$data["lng"] = $Row[$post["field_lng"]];
+				$data["company"] = $Row[$company_name];
+				print_r($data);
+				break;
+			}
+
+		}
+	}
+
+	public function fileupload()
+	{
+		$file_name = "";
+		$error = "";
+		$post = $this->input->post();
+		if($_FILES['file']['name'] != '' && $_FILES['file']['error'] == 0){
+			$config['upload_path'] = './uploads/';
+			$config['allowed_types'] = 'xls|csv|xlsx';
+
+			$file_name_arr = explode('.',$_FILES['file']['name']);
+			$file_name_arr = array_reverse($file_name_arr);
+			$file_extension = $file_name_arr[0];
+			$file_name = $config['file_name'] = "cell_".time().".".$file_extension;
+
+			$this->load->library('upload', $config);
+
+			if ( ! $this->upload->do_upload('file'))
+			{
+				$error = $this->upload->display_errors();
+			}
+
+			if ($error != "")
+				echo "Error:".$error;
+			else
+			{
+				/* Get uploaded file header uploaded File here */
+				require('./application/libraries/spreadsheet-reader/php-excel-reader/excel_reader2.php');
+				require('./application/libraries/spreadsheet-reader/SpreadsheetReader.php');
+				$Reader = new SpreadsheetReader( './uploads/'.$file_name);
+				foreach ($Reader as $Row)
+				{
+					$header = $Row;
+					break;
+				}
+				$header = array_filter($header);
+				$op["filename"] = $_FILES['file']['name'];
+				$op["filename_org"] = $file_name;
+				$op["header"] = $header;
+				echo json_encode($op,JSON_FORCE_OBJECT);
+			}
+			exit;
+		}else
+		{
+			echo "Error: File not uploaded to server.";
+		}
+	}
+
 
 	public function delete()
 	{

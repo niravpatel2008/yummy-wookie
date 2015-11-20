@@ -31,12 +31,8 @@ class Users extends CI_Controller {
 					'dt' => 3,
 					'formatter' => function( $d, $row ) {
 						$op = array();
-						
-						if (hasAccess("users","edit"))
-							$op[] = '<a href="'.site_url('/users/edit/'.$d).'" class="fa fa-edit"></a> ';
-
-						if (hasAccess("users","delete"))
-							$op[] = '<a href="javascript:void(0);" onclick="delete_user('.$d.')" class="fa fa-trash-o"></a>';
+						$op[] = '<a href="'.site_url('/users/edit/'.$d).'" class="fa fa-edit"></a> ';
+						$op[] = '<a href="javascript:void(0);" onclick="delete_user('.$d.')" class="fa fa-trash-o"></a>';
 						
 						return implode(" / ",$op);
 					}
@@ -75,7 +71,6 @@ class Users extends CI_Controller {
 				$data = array('name' => $post['user_name'],
 								'email' => $post['email'],
 								'password' => sha1(trim($post['password'])),
-								'cust_id' => NULL
 							  );
 				
 				$ret = $this->common_model->insertData(USER, $data);
@@ -141,7 +136,6 @@ class Users extends CI_Controller {
 			if ($this->form_validation->run() !== false) {
 				$data = array('name' => $post['user_name'],
 								'email' => $post['email'],
-								'cust_id' => NULL
 							);
 				if($psFlas)
 					$data['password'] = sha1(trim($post['password']));

@@ -14,7 +14,7 @@ class Index extends CI_Controller {
 		$session = $this->session->userdata('user_session');
 		#pr($session,1);
 		if (isset($session['id'])) {
-			redirect(base_url()."dashboard");
+			redirect(base_url()."cellarea");
 		}
 
 		$data = array();
@@ -52,7 +52,7 @@ class Index extends CI_Controller {
 						setcookie('password',$post['password'],time() + (86400 * 365));
 					}
 
-					redirect('dashboard');
+					redirect('cellarea');
 				}else{
 					$error['invalid_login'] = "Invalid email or password";
 				}

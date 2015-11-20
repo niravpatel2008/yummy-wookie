@@ -17,7 +17,7 @@
         function success_msg_box (msg) {
             var html = '<div class="alert alert-success alert-dismissable"> \n\
                             <i class="fa fa-check"></i> \n\
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button> \n\
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">Ã—</button> \n\
                             '+msg+' \n\
                         </div>';
             return html;
@@ -27,7 +27,7 @@
         {
             var html = '<div class="alert alert-danger alert-dismissable"> \n\
                             <i class="fa fa-ban"></i> \n\
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button> \n\
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">Ã—</button> \n\
                             '+msg+' \n\
                         </div>';
             return html;
@@ -53,7 +53,8 @@
 		<script src="<?=public_path()?>js/admin/<?=$this->router->fetch_class()?>/add_edit.js" type="text/javascript"></script>
 	<?php }?>
 	    
-	<?php if ($this->router->fetch_class() == "product" && in_array($this->router->fetch_method(), array("index"))) { ?>
+	<?php if ($this->router->fetch_class() == "cellarea" && in_array($this->router->fetch_method(), array("index"))) { ?>
+		<script src="<?=public_path()?>js/plugins/dropzone/dropzone.js" type="text/javascript"></script>
 		<script src="<?=public_path()?>js/plugins/validation/btvalidationEngine.js" type="text/javascript"></script>
 		<script src="<?=public_path()?>js/plugins/validation/btvalidationEngine-en.js" type="text/javascript"></script>
     <?php } ?>
