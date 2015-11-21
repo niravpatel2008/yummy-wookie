@@ -8,40 +8,42 @@
 		<div class="col-md-6">
 				<div class="box">
 					<div class="box-header">
-						<h3 class="box-title">Upload Excel</h3>                                    
+						<h3 class="box-title col-md-12">Upload Excel <span class='pull-right' id='file-name'></span></h3>                                    
 					</div><!-- /.box-header -->
-					<div class="box-body">
+					<div class="box-body clearfix">
 						<div class='file-upload'>
 							<form id="my-awesome-dropzone" action="<?=base_url()."cellarea/fileupload"?>" class="dropzone"></form>
 						</div>
 						<div class='file-process' style='display:none;'>
 							<div class='file-process-body'>
-								<div id='file-name'>
-									<b></b>
-								</div>
 								<div id='file-mapping'>
 									<form name='file-process-form' id='file-process-form'>
 									<input type="hidden" name='filename' id="filename" value="">
-									<div class="form-group">
+									<div class="form-group col-md-6">
 										<label>Company Name:</label>
 										<select id='company_name' name='company_name' class="form-control validate[required]">
 											<option value=''>Select Company</option>
-											<option value='idea'>IDEA</option>
-											<option value='airtel'>AIRTEL</option>
-											<option value='vodafone'>VODAFONE</option>
-											<option value='telenor'>TELENOR</option>
-											<option value='docomo'>DOCOMO</option>
-											<option value='reliance'>RELIANCE</option>
+											<?
+												foreach ($companies as $company)
+												{
+													?>
+													<option value='<?= ($company)?>'><?= strtoupper($company)?></option>
+													<?php 
+												}
+											?>
 										</select>
 									</div>
-									<div class="form-group">
-										<label>Lat:</label>
-										<select id='field_lat' name='field_lat' class="file-process-field form-control validate[required]"></select>
-									</div>
-									<div class="form-group">
-										<label>Long:</label>
-										<select id='field_lng' name='field_lng' class="file-process-field form-control validate[required]"></select>
-									</div>
+									<?
+									foreach ($filefields as $field)
+									{
+										?>
+										<div class="form-group col-md-6">
+											<label><?= strtoupper(str_replace("_"," ",$field))?>:</label>
+											<select id='field[<?= $field?>]' name='field[<?= $field?>]' class="file-process-field form-control validate[required]"></select>
+										</div>
+										<?php 
+									}
+									?>
 									</form>
 								</div>
 							</div>
@@ -66,23 +68,31 @@
 						<h3 class="box-title">list</h3>                                    
 					</div><!-- /.box-header -->
 					<div class="box-body table-responsive">
-						<table id="usersTable" class="table table-bordered table-striped">
+						<table id="cellareaTable" class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>Name</th>
-									<th>Role</th>
-									<th>Email</th>
-									<th>Created At</th>
-									<th>Action</th>
+									<th>COMPANY</th>
+									<th>CELL ID</th>
+									<th>TOWN</th>
+									<th>ADDRESS</th>
+									<th>LATITUDE</th>
+									<th>LOGITUDE</th>
+									<th>CREATED</th>
+									<th>MODIFIED</th>
+									<th>ACTION</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
-									<th>Name</th>
-									<th>Role</th>
-									<th>Contact</th>
-									<th>Created At</th>
-									<th>Action</th>
+									<th>COMPANY</th>
+									<th>CELL ID</th>
+									<th>TOWN</th>
+									<th>ADDRESS</th>
+									<th>LATITUDE</th>
+									<th>LOGITUDE</th>
+									<th>CREATED</th>
+									<th>MODIFIED</th>
+									<th>ACTION</th>
 								</tr>
 							</tfoot>
 						</table>
@@ -92,3 +102,6 @@
     	</div>
     </div>
 </section>
+<script>
+var companies = <?php echo json_encode($companies)?>;
+</script>

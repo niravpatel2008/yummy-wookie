@@ -44,22 +44,10 @@ define('DOC_ROOT_CATEGORY_IMG',  "./uploads/category_images/");
 
 define('ADMIN',	'admin');
 define('USER',	'user');
-define('CATEGORY',	'category');
-define('PRODUCT',	'product');
-define('PURCHASE',	'purchase');
-define('CUSTOMER',	'customer');
-define('SERVICE',	'service');
-define('INVOICE',	'invoice');
-define('ORDER',	'order');
+define('CELLAREA',	'cellarea');
 
-define('ADMIN_A',	'admin as a');
 define('USER_U',	'user as u');
-define('CATEGORY_C',	'category as c');
-define('PURCHASE_PP',	'purchase as pp');
-define('PRODUCT_P',	'product as p');
-define('CUSTOMER_CU',	'customer as cu');
-define('INVOICE_I',	'invoice as i');
-define('ORDER_O',	'order as o');
+define('CELLAREA_C',	'cellarea as c');
 
 
 define('FROM_EMAIL', 'nirav.ce.2008@gmail.com');

@@ -57,6 +57,8 @@
 		<script src="<?=public_path()?>js/plugins/dropzone/dropzone.js" type="text/javascript"></script>
 		<script src="<?=public_path()?>js/plugins/validation/btvalidationEngine.js" type="text/javascript"></script>
 		<script src="<?=public_path()?>js/plugins/validation/btvalidationEngine-en.js" type="text/javascript"></script>
+		<script src="<?=public_path()?>js/plugins/loading.js" type="text/javascript"></script>
+
     <?php } ?>
 
 	<script src="<?=public_path()?>js/admin/<?=$this->router->fetch_class()?>/index.js" type="text/javascript"></script>

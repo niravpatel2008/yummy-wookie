@@ -1,16 +1,20 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+@set_time_limit(-1);
 class Cellarea extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
 		$this->user_session = $this->session->userdata('user_session');
+		$this->filefields = array("town","cell_id","address","latitude","longitude");
+		$this->companies = array("vodafone","airtel","idea","reliance","telenor","docomo","videocon");
 	}
 
 	public function index()
 	{
 		#pr($this->session->flashdata('flash_msg'));
 		$data['view'] = "index";
+		$data['filefields'] = $this->filefields;
+		$data['companies'] = $this->companies;
 		$this->load->view('content', $data);
 	}
 
@@ -19,25 +23,30 @@ class Cellarea extends CI_Controller {
 		$post = $this->input->post();
 
 		$columns = array(
-			array( 'db' => 'name', 'dt' => 0 ),
-			array( 'db' => 'role',  'dt' => 1 ),
-			array( 'db' => 'email',  'dt' => 2 ),
-			array('db'        => 'creation_date',
-					'dt'        => 3,
+			array( 'db' => 'company', 'dt' => 0 ),
+			array( 'db' => 'cell_id', 'dt' => 1 ),
+			array( 'db' => 'town',  'dt' => 2 ),
+			array( 'db' => 'address',  'dt' => 3 ),
+			array( 'db' => 'latitude',  'dt' => 4 ),
+			array( 'db' => 'longitude',  'dt' => 5 ),
+			array('db'        => 'created_date',
+					'dt'        => 6,
+					'formatter' => function( $d, $row ) {
+						return date( 'jS M y', strtotime($d));
+					}
+			),
+			array('db'        => 'modified_date',
+					'dt'        => 7,
 					'formatter' => function( $d, $row ) {
 						return date( 'jS M y', strtotime($d));
 					}
 			),
 			array( 'db' => 'id',
-					'dt' => 4,
+					'dt' => 8,
 					'formatter' => function( $d, $row ) {
 						$op = array();
-						
-						if (hasAccess("users","edit"))
-							$op[] = '<a href="'.site_url('/users/edit/'.$d).'" class="fa fa-edit"></a> ';
-
-						if (hasAccess("users","delete"))
-							$op[] = '<a href="javascript:void(0);" onclick="delete_user('.$d.')" class="fa fa-trash-o"></a>';
+						$op[] = '<a href="'.site_url('/cellarea/edit/'.$d).'" class="fa fa-edit"></a> ';
+						$op[] = '<a href="javascript:void(0);" onclick="delete_cellarea('.$d.')" class="fa fa-trash-o"></a>';
 						
 						return implode(" / ",$op);
 					}
@@ -201,6 +210,8 @@ class Cellarea extends CI_Controller {
 
 	public function process_file()
 	{
+		$this->load->helper('file');
+		//ignore_user_abort(true);
 		$post = $this->input->post();
 		if ($post) {
 			$filename = $post["filename"];
@@ -212,8 +223,16 @@ class Cellarea extends CI_Controller {
 			require('./application/libraries/spreadsheet-reader/SpreadsheetReader.php');
 			$Reader = new SpreadsheetReader( './uploads/'.$filename);
 			$headerFlag = true;
+			$post_fields = $post["field"];
+			$company = $post["company_name"];
+			$error = 0;
+			$success = 0;
+			$i= 0;
+			$total = count($Reader);
+			write_file('./uploads/'.$filename.".html", "0 / ". $total);
 			foreach ($Reader as $Row)
 			{
+				$i++;
 				if ($headerFlag) 
 				{
 					$headerFlag = false;
@@ -221,13 +240,29 @@ class Cellarea extends CI_Controller {
 				}
 				
 				$data = array();
-				$data["lat"] = $Row[$post["field_lat"]];
-				$data["lng"] = $Row[$post["field_lng"]];
-				$data["company"] = $Row[$company_name];
-				print_r($data);
-				break;
-			}
+				foreach ($this->filefields as $field)
+					$data[$field] = $Row[$post_fields[$field]]; 
 
+				$data["company"] = $company;
+				$data["created_date"] = date('Y-m-d H:i:s');
+				$data["modified_date"] = date('Y-m-d H:i:s');
+
+				$ret = $this->common_model->insertData(CELLAREA, $data);
+				if ($ret > 0) {
+					$success++;
+				}else{
+					$error++;
+				}
+
+				if ($i%100 === 0)
+				{
+					write_file('./uploads/'.$filename.".html", "$i / ". $total);
+				}
+			}
+			$op = array();
+			$op["success"] = $success;
+			$op["error"] = $error;
+			echo json_encode($op);exit;
 		}
 	}
 
