@@ -2,6 +2,7 @@ var oTable;
 var hTable;
 var locObj;
 var progressFlag = true;
+var markers = [];
 $(document).ready(function() {
 	$("#file-process-form").validationEngine();
 	oTable = $('#cellareaTable').dataTable( {
@@ -132,8 +133,15 @@ function searchCellArea(data)
 	
 	$.post(url,data,function(ret){
 		$("body").loading("hide");
+
+		/* Clear All markers */
+		for (var i = 0; i < markers.length; i++) {
+			markers[i].setMap(null);
+		}
+
 		var areas = JSON.parse(ret);
 		var html = "<tr><td>Company</td><td>Cell id</td><td>Town</td></tr>";
+
 		for (key in areas)
 		{
 			var area = areas[key];
@@ -146,6 +154,7 @@ function searchCellArea(data)
 				map: map,
 				title: area.cell_id+" ("+area.company+")"
 			});
+			markers.push(marker);
 		}
 		$("#cellarea-result").html(html);
 	})
