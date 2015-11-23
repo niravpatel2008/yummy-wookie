@@ -1,5 +1,6 @@
 var oTable;
 var hTable;
+var locObj;
 var progressFlag = true;
 $(document).ready(function() {
 	$("#file-process-form").validationEngine();
@@ -61,6 +62,16 @@ $(document).ready(function() {
 		$("#file-process-form input,#file-process-form select").val("");
 	})
 
+	$("#del-company-btn").on("click",function(){
+		var company = $("#del_company_name").val();
+		if (company == "")
+		{
+			alert("Please select company name.");
+			return;
+		}
+		delete_company_cellarea(company);
+	});
+
 	$("#file-submit").on("click",function(e){
 		e.preventDefault();
 		if(!$('#file-process-form').validationEngine('validate'))
@@ -77,6 +88,7 @@ $(document).ready(function() {
 		var url = admin_path ()+'cellarea/process_file/';
 		progressFlag = true;
 		$.post(url,data,function(res){
+				$("#file-cancel").click();
 				if (res.indexOf("Error:") !== -1)
 				{
 					progressFlag = false;
@@ -88,14 +100,57 @@ $(document).ready(function() {
 				{
 					progressFlag = false;
 					$("body").loading("hide");
+					oTable.fnClearTable(0);
+					oTable.fnDraw();
 					var data = JSON.parse(res);
 					alert(data.success + " data inserted, "+data.error+ " failed.");
-					//location.reload();
 				}
 		})
 		getProgress();
 	})
+
+	locObj = $('#locationHolder').locationpicker({
+		radius: 300,
+		scrollwheel: true,
+		inputBinding: {
+			locationNameInput: $('#de_address_tmp'),
+		},
+		enableAutocomplete: true,
+		onchanged: function(currentLocation, radius, isMarkerDropped) {
+				var data = {latitude:currentLocation.latitude,longitude:currentLocation.longitude};
+				searchCellArea(data);
+		}
+	});
 } );
+
+function searchCellArea(data)
+{
+	var url = admin_path()+'cellarea/search';
+	$("body").loading("show");
+	
+	var map = $(locObj).data("locationpicker").map;
+	
+	$.post(url,data,function(ret){
+		$("body").loading("hide");
+		var areas = JSON.parse(ret);
+		var html = "<tr><td>Company</td><td>Cell id</td><td>Town</td></tr>";
+		for (key in areas)
+		{
+			var area = areas[key];
+			html += "<tr><td>"+area.company+"</td><td>"+area.cell_id+"</td><td>"+area.town+"</td></tr>";
+
+			var myLatLng = {lat: parseFloat(area.latitude), lng: parseFloat(area.longitude)};
+			console.log(myLatLng);
+			var marker = new google.maps.Marker({
+				position: myLatLng,
+				map: map,
+				title: area.cell_id+" ("+area.company+")"
+			});
+		}
+		$("#cellarea-result").html(html);
+	})
+}
+
 
 function getProgress(){
 	var url = admin_path ()+'uploads/'+$("#filename").val()+".html";
@@ -109,6 +164,28 @@ function getProgress(){
 					},2000);
 		}
 	 });
+}
+
+function delete_company_cellarea(company)
+{
+	var r = confirm("Are you sure you want to delete?");
+	if (!r) {
+		return false;
+	}
+	$.ajax({
+		type: 'post',
+		url: admin_path()+'cellarea/deleteByCompany',
+		data: {"company":company},
+		success: function (data) {
+			if (data == "success") {
+				oTable.fnClearTable(0);
+				oTable.fnDraw();
+				$("#flash_msg").html(success_msg_box ('Cell Id deleted successfully.'));
+			}else{
+				$("#flash_msg").html(error_msg_box ('An error occurred while processing.'));
+			}
+		}
+	});
 }
 
 function delete_cellarea(del_id)
@@ -129,6 +206,51 @@ function delete_cellarea(del_id)
 			}else{
 				$("#flash_msg").html(error_msg_box ('An error occurred while processing.'));
 			}
+		}
+	});
+}
+
+function addedit_cellinfo(id)
+{
+	var op = (id)?"edit":"add";
+	
+	var url = admin_path()+'cellarea/'+op+'/'+id;
+	$("body").loading("show");
+	$.get(url,{},function(data){
+			$("body").loading("hide");
+			$('#edit-modal .modal-content').html(data);
+			$('#edit-modal').modal('toggle');
+	});
+}
+
+function submit_cellinfo(id)
+{
+	$('#cellinfo-addedit').validationEngine();
+	if(!$('#cellinfo-addedit').validationEngine('validate'))
+		return false;
+		
+	var formdata =$("#cellinfo-addedit").serializeArray();
+	var data = {}
+	for ( key in formdata )
+	{
+		data[formdata[key].name] = formdata[key].value;
+	}
+
+	var op = (id)?"edit":"add";
+	var url = admin_path()+'cellarea/'+op+'/'+id;
+	$("body").loading("show");
+	$.post(url,data,function(data){
+
+		if (data == "1") {
+			oTable.fnClearTable(0);
+			oTable.fnDraw();
+			$("body").loading("hide");
+			$('#edit-modal').modal('toggle');
+			$("#flash_msg").html(success_msg_box ('Operation successfully.'));
+		}else{
+			$("body").loading("hide");
+			$('#edit-modal').modal('toggle');
+			$("#flash_msg").html(error_msg_box ('An error occurred while processing.'));
 		}
 	});
 }

@@ -230,6 +230,7 @@
                 draggable: settings.draggable
             });
             $target.data("locationpicker", gmapContext);
+            $target.data("map", gmapContext.map);
             // Subscribe GMap events
             google.maps.event.addListener(gmapContext.marker, "dragend", function(event) {
                 GmUtility.setPosition(gmapContext, gmapContext.marker.position, function(context){

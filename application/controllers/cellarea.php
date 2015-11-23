@@ -45,7 +45,7 @@ class Cellarea extends CI_Controller {
 					'dt' => 8,
 					'formatter' => function( $d, $row ) {
 						$op = array();
-						$op[] = '<a href="'.site_url('/cellarea/edit/'.$d).'" class="fa fa-edit"></a> ';
+						$op[] = '<a href="javascript:addedit_cellinfo('.$d.');" class="fa fa-edit"></a> ';
 						$op[] = '<a href="javascript:void(0);" onclick="delete_cellarea('.$d.')" class="fa fa-trash-o"></a>';
 						
 						return implode(" / ",$op);
@@ -59,153 +59,78 @@ class Cellarea extends CI_Controller {
 	{
 		$post = $this->input->post();
 		if ($post) {
-			#pr($post);
-			$error = array();
-			$e_flag=0;
-
-			$this->load->library('form_validation');
-			$this->form_validation->set_rules('email', 'Email address', 
-									'trim|required|valid_email|is_unique['.CELLAREA.'.email]',
-									array(
-										"required"=>"Please enter %s.",
-										"valid_email"=>"Please enter valid %s.",
-										"is_unique"=>"%s is already exists."
-									)
-			);
-
-			$this->form_validation->set_rules('CELLAREA_name', 'User Name', 'trim|required');
-			$this->form_validation->set_rules('role', 'Role', 'trim|required');
-			$this->form_validation->set_rules('password', 'Password', 'trim|required');
-			$this->form_validation->set_rules('re_password', 'Password Confirmation', 'trim|required|matches[password]',
-								array(
-									"matches"=>"%s field does not match."
-								)
-			);
-			if ($post['role'] == "d")
-			{
-				$this->form_validation->set_rules('cust_id', 'Customer', 'trim|required');
-			}
 			
-			if ($this->form_validation->run() !== false) {
-				$data = array('name' => $post['user_name'],
-								'role' => $post['role'],
-								'email' => $post['email'],
-								'password' => sha1(trim($post['password'])),
-								'cust_id' => NULL
-							  );
+				$data = array();
+				foreach ($this->filefields as $field)
+					$data[$field] = $post[$field]; 
 
-				if ($post['role'] == "d")
-				{
-					$data["cust_id"] = $post["cust_id"];
-				}
+				$data["company"] = $post['company'];
+				$data["modified_date"] = date('Y-m-d H:i:s');
 				
 				$ret = $this->common_model->insertData(CELLAREA, $data);
 
 				if ($ret > 0) {
-					$flash_arr = array('flash_type' => 'success',
-										'flash_msg' => 'User added successfully.'
-									);
+					echo "1";
 				}else{
-					$flash_arr = array('flash_type' => 'error',
-										'flash_msg' => 'An error occurred while processing.'
-									);
+					echo "0";
 				}
-				$this->session->set_flashdata($flash_arr);
-				redirect("users");
-			}
-			$data['error_msg'] = validation_errors();//$error;
+			exit;
 		}
 		$data['view'] = "add_edit";
-		$this->load->view('content', $data);
+		$data['filefields'] = $this->filefields;
+		$data['companies'] = $this->companies;
+		$this->load->view('ajax-content', $data);
 	}
 
 	public function edit($id)
 	{
 		if ($id == "" || $id <= 0) {
-			redirect('users');
+			echo "You can not edit.";exit;
 		}
 
 		$where = 'id = '.$id;
 
 		$post = $this->input->post();
 		if ($post) {
+				$data = array();
+				foreach ($this->filefields as $field)
+					$data[$field] = $post[$field]; 
 
-			$original_email = $this->common_model->selectData(CELLAREA, 'email', $where);
-			
-			if($post['email'] != $original_email[0]->email) {
-			   $is_unique =  '|is_unique['.USER.'.email]';
-			} else {
-			   $is_unique =  '';
-			}
-
-			$this->form_validation->set_rules('email', 'Email address', 
-									'trim|required|valid_email'.$is_unique,
-									array(
-										"required"=>"Please enter %s.",
-										"valid_email"=>"Please enter valid %s.",
-										"is_unique"=>"%s is already exists."
-									)
-			);
-
-			$this->form_validation->set_rules('user_name', 'User Name', 'trim|required');
-			$this->form_validation->set_rules('role', 'Role', 'trim|required');
-			
-			if (trim($post['password']) != "") {
-				$this->form_validation->set_rules('password', 'Password', 'trim|required');
-				$this->form_validation->set_rules('re_password', 'Password Confirmation', 'trim|required|matches[password]',
-								array(
-									"matches"=>"%s field does not match."
-								)
-				);
-				$psFlas = true;
-			}
-
-			if ($post['role'] == "d")
-			{
-				$this->form_validation->set_rules('cust_id', 'Customer', 'trim|required');
-			}
-	
-			if ($this->form_validation->run() !== false) {
-				$data = array('name' => $post['user_name'],
-								'role' => $post['role'],
-								'email' => $post['email'],
-								'cust_id' => NULL
-							);
-				if($psFlas)
-					$data['password'] = sha1(trim($post['password']));
-				
-				if ($post['role'] == "d")
-				{
-					$data["cust_id"] = $post["cust_id"];
-				}
+				$data["company"] = $post['company'];
+				$data["modified_date"] = date('Y-m-d H:i:s');
 
 				$ret = $this->common_model->updateData(CELLAREA, $data, $where);
 
 				if ($ret > 0) {
-					$flash_arr = array('flash_type' => 'success',
-										'flash_msg' => 'User updated successfully.'
-									);
+					echo "1";
 				}else{
-					$flash_arr = array('flash_type' => 'error',
-										'flash_msg' => 'An error occurred while processing.'
-									);
+					echo "0";
 				}
-				$this->session->set_flashdata($flash_arr);
-				redirect("users");
-			}
-			$data['error_msg'] = validation_errors();
+				exit;
 		}
-		$data['user'] = $user = $this->common_model->selectData(CELLAREA, '*', $where);
+		$data['cellarea'] = $this->common_model->selectData(CELLAREA, '*', $where);
 
-		if ($user[0]->role == "d"){
-			$data['customer'] = $this->common_model->customerTitleById($user[0]->cust_id);
-		}
-
-		if (empty($user)) {
-			redirect('users');
-		}
 		$data['view'] = "add_edit";
-		$this->load->view('content', $data);
+		$data['filefields'] = $this->filefields;
+		$data['companies'] = $this->companies;
+		$this->load->view('ajax-content', $data);
+	}
+	
+	public function search()
+	{
+		$post = $this->input->post();
+		if (!$post)exit;
+
+		$data = array();
+		$db = $this->common_model->db;
+		$db->select("*");
+		$db->from(CELLAREA);
+		$db->limit(10);
+		$query = $db->get();
+		$data = $query->result_array();
+		echo json_encode($data);exit;
+
+		print_r($post);
 	}
 
 	public function process_file()
@@ -271,9 +196,10 @@ class Cellarea extends CI_Controller {
 		$file_name = "";
 		$error = "";
 		$post = $this->input->post();
+		
 		if($_FILES['file']['name'] != '' && $_FILES['file']['error'] == 0){
 			$config['upload_path'] = './uploads/';
-			$config['allowed_types'] = 'xls|csv|xlsx';
+			$config['allowed_types'] = 'xls|csv|xlsx|application/octet-stream';
 
 			$file_name_arr = explode('.',$_FILES['file']['name']);
 			$file_name_arr = array_reverse($file_name_arr);
@@ -312,7 +238,22 @@ class Cellarea extends CI_Controller {
 			echo "Error: File not uploaded to server.";
 		}
 	}
+	
+	public function deleteByCompany()
+	{
+		$post = $this->input->post();
 
+		if ($post) {
+			$ret = $this->common_model->deleteData(CELLAREA, array('company' => $post['company'] ));
+			if ($ret > 0) {
+				echo "success";
+				#echo success_msg_box('User deleted successfully.');;
+			}else{
+				echo "error";
+				#echo error_msg_box('An error occurred while processing.');
+			}
+		}
+	}
 
 	public function delete()
 	{

@@ -4,6 +4,34 @@
     </h1>
 </section>
 <section class="content">
+	<div class='row'>
+		<div class='col-md-12'>
+			<div class='box'>
+				<div class='box-header'>
+					<h3 class="box-title col-md-12">Search CELL ID</h3>                                   
+				</div>
+				<div class='box-body clearfix'>
+					<div class='col-md-6'>
+						<div class="form-group">
+							<div class="form-group">
+								<label for="de_address">Find LatLong by Address:</label>
+								<input placeholder="Enter Address" id="de_address_tmp" class="form-control" value="Gujarat" >
+							</div>
+						</div>
+						<div class="form-group">
+							<div id="locationHolder" style="width: 100%; height: 400px;"></div>
+						</div>
+					</div>
+					<div>
+						<div class='col-md-6'>
+							<table class="table table-bordered" id='cellarea-result'>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-6">
 				<div class="box">
@@ -23,7 +51,7 @@
 										<label>Company Name:</label>
 										<select id='company_name' name='company_name' class="form-control validate[required]">
 											<option value=''>Select Company</option>
-											<?
+											<?php
 												foreach ($companies as $company)
 												{
 													?>
@@ -33,7 +61,7 @@
 											?>
 										</select>
 									</div>
-									<?
+									<?php
 									foreach ($filefields as $field)
 									{
 										?>
@@ -56,11 +84,35 @@
 				</div><!-- /.box -->
 		</div>
 		<div class="col-md-6">
+			<div class="box">
+					<div class="box-header">
+						<h3 class="box-title col-md-12">Delete Records by Company</h3>                                   
+					</div><!-- /.box-header -->
+					<div class="box-body clearfix">
+						<div class="form-group col-md-12">
+							<label>Company Name:</label>
+							<select id='del_company_name' name='del_company_name' class="form-control validate[required]">
+								<option value=''>Select Company</option>
+								<?php
+									foreach ($companies as $company)
+									{
+										?>
+										<option value='<?= ($company)?>'><?= strtoupper($company)?></option>
+										<?php 
+									}
+								?>
+							</select>
+						</div>
+					</div>
+					<div class='box-footer'>
+						<button class="btn btn-primary btn-flat" type="button" id="del-company-btn">Delete</button>
+					</div>
+				</div>
 		</div>
 	</div>
 	<div class="row">
     	<div class="col-md-12">
-    		<a class="btn btn-default pull-right" href="<?=base_url()."users/add"?>">
+    		<a class="btn btn-default pull-right" href="javascript:addedit_cellinfo();">
             <i class="fa fa-plus"></i>&nbsp;Add</a>
             <div id="list">
 				<div class="box">
@@ -102,6 +154,15 @@
     	</div>
     </div>
 </section>
+<div id="modals">
+	<div id="edit-modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                    
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 var companies = <?php echo json_encode($companies)?>;
 </script>
