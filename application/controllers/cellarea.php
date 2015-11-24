@@ -121,16 +121,21 @@ class Cellarea extends CI_Controller {
 		$post = $this->input->post();
 		if (!$post)exit;
 
-		$data = array();
+		$orig_lat		= $post['latitude'];
+		$orig_lon	= $post['longitude'];
+		$dist = 1;
+
 		$db = $this->common_model->db;
-		$db->select("*");
+		$db->select("*, (3956 * 2 * ASIN(SQRT( POWER(SIN(($orig_lat - latitude) *  pi()/180 / 2), 2) +COS($orig_lat * pi()/180) * COS(latitude * pi()/180) * POWER(SIN(($orig_lon - longitude) * pi()/180 / 2), 2) ))) as distance",false);
 		$db->from(CELLAREA);
-		$db->limit(10);
+		$db->where("longitude between $orig_lon-$dist/abs(cos(radians($orig_lat))*69) and $orig_lon+$dist/abs(cos(radians($orig_lat))*69) and latitude between $orig_lat-($dist/69) and $orig_lat+($dist/69)");
+		$db->order_by("distance","asc");
+		
+		$query = $db->limit(10);
 		$query = $db->get();
+		$data = array();
 		$data = $query->result_array();
 		echo json_encode($data);exit;
-
-		print_r($post);
 	}
 
 	public function process_file()

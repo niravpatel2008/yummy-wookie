@@ -140,21 +140,30 @@ function searchCellArea(data)
 		}
 
 		var areas = JSON.parse(ret);
-		var html = "<tr><td>Company</td><td>Cell id</td><td>Town</td></tr>";
+		var html = "<tr><td>Company</td><td>Cell id</td><td>Town</td><td>Distance</td></tr>";
 
 		for (key in areas)
 		{
 			var area = areas[key];
-			html += "<tr><td>"+area.company+"</td><td>"+area.cell_id+"</td><td>"+area.town+"</td></tr>";
+			html += "<tr id='tr_"+area.id+"'><td>"+area.company+"</td><td>"+area.cell_id+"</td><td>"+area.town+"</td><td>"+area.distance+"</td></tr>";
 
 			var myLatLng = {lat: parseFloat(area.latitude), lng: parseFloat(area.longitude)};
 			console.log(myLatLng);
 			var marker = new google.maps.Marker({
 				position: myLatLng,
 				map: map,
-				title: area.cell_id+" ("+area.company+")"
+				tr_id:area.id,
+				title: area.cell_id+" ("+area.company+")",
+				icon: 'https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.7|0|ABA8E0|13|b|'+area.company.substr(0,1).toUpperCase()
 			});
 			markers.push(marker);
+			google.maps.event.addListener(marker, "click", function()
+			{
+				console.log(marker);
+				var highlightTr = "tr_"+marker.tr_id;
+				$("#cellarea-result tr").removeClass("highlight");
+				$("#"+highlightTr).addClass("highlight");
+			})
 		}
 		$("#cellarea-result").html(html);
 	})

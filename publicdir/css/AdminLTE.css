@@ -4079,3 +4079,7 @@ Gradient Background colors
 .repaired{background-color:#f0ad4e}
 .done{background-color:#00a65a}
 .dz-preview{display:none;}
+
+#cellarea-result .highlight {
+	background-color:#D3E4FF;
+}
